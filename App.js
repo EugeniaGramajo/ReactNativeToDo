@@ -1,20 +1,66 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from "react";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  View,
+} from "react-native";
+
+import GoalItem from "./components/GoalItem";
+import GoalsInput from "./components/goalsInput";
 
 export default function App() {
+
+  const [courseGoals, setCourseGoals] = useState([]);
+  const [modalVisible, setModalvisible]= useState(false)
+
+  function addGoalHandler(input) {
+    setCourseGoals((current) => [
+      ...current,
+      { text: input, id: Math.random().toString() },
+    ]);
+  }
+  function deleteGoalHandler(id){
+    setCourseGoals(currentCourseGoals => {
+      return currentCourseGoals.filter((goal)=>goal.id!==id);
+    })
+  }
+  function isModalVisible(){
+    setModalvisible(!modalVisible)
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.appContainer}>
+      <Button onPress={isModalVisible} title="Add a new Goal"  color="#ffcfd2"/>
+      <GoalsInput modalVisible={modalVisible} isModalVisible={isModalVisible} addGoalHandler={addGoalHandler} />
+      <View style={styles.goalsContainer}>
+        <FlatList
+          data={courseGoals}
+          renderItem={(itemData) => {
+            return <GoalItem id={itemData.item.id} deleteGoalHandler={deleteGoalHandler} text={itemData.item.text} />
+          }}
+          keyExtractor={(item,index)=>{
+            return item.id
+          }}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 100,
+    paddingHorizontal: 16,
+    backgroundColor:"#fae0e4",
+    justifyContent:"center"
   },
+  
+  goalsContainer: {
+    flex: 2,
+    borderTopWidth: 3,
+    borderTopColor: "white",
+    marginTop:25,
+  },
+
 });
