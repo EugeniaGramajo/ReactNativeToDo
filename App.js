@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 import GoalItem from "./components/GoalItem";
 import GoalsInput from "./components/goalsInput";
@@ -29,6 +30,8 @@ export default function App() {
     setModalvisible(!modalVisible)
   }
   return (
+    <>
+    <StatusBar style="Dark" />
     <View style={styles.appContainer}>
       <Button onPress={isModalVisible} title="Add a new Goal"  color="#ffcfd2"/>
       <GoalsInput modalVisible={modalVisible} isModalVisible={isModalVisible} addGoalHandler={addGoalHandler} />
@@ -43,7 +46,7 @@ export default function App() {
           }}
         />
       </View>
-    </View>
+    </View></>
   );
 }
 
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 100,
     paddingHorizontal: 16,
-    backgroundColor:"#fae0e4",
     justifyContent:"center"
   },
   
