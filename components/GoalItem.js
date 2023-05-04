@@ -1,6 +1,7 @@
 import {Pressable, StyleSheet} from 'react-native'
 import { View, Text } from 'react-native'
 
+
 export default function GoalItem(props){
 
     return(
